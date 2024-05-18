@@ -11,6 +11,7 @@ namespace LibraryManageSystem
         public Form1()
         {
             InitializeComponent();
+            showPassBtn1.Visible = false;
         }
         SqlConnection conn = new SqlConnection(@"Data Source=ELPROF;Initial Catalog=LibrarySystem;Integrated Security=True;Encrypt=False");
 
@@ -27,7 +28,7 @@ namespace LibraryManageSystem
                 {
                     c.BackColor = Color.Transparent;
                 }
-                if(c is Button)
+                if (c is Button)
                 {
 
                     c.Cursor = Cursors.Hand;
@@ -36,6 +37,19 @@ namespace LibraryManageSystem
 
 
         }
+
+        private void textBox_Changed(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(passBox.Text))
+            {
+                showPassBtn1.Visible = true;
+            }
+            else
+            {
+                showPassBtn1.Visible = false;
+            }
+        }
+    
 
 
 
@@ -56,10 +70,10 @@ namespace LibraryManageSystem
                 {
                     userName = userBox.Text;
                     userPass = passBox.Text;
-                    GlobalVariables.UserName = dTable.Rows[0][0].ToString();
+                    GlobalVariables.UserName = dTable.Rows[0][0]?.ToString();
                     GlobalVariables.UserID = Convert.ToInt32(dTable.Rows[0][1]);
-                    GlobalVariables.UserPass = dTable.Rows[0][2].ToString();
-                    GlobalVariables.UserType = dTable.Rows[0][3].ToString();
+                    GlobalVariables.UserPass = dTable.Rows[0][2]?.ToString();
+                    GlobalVariables.UserType = dTable.Rows[0][3]?.ToString();
 
                     Home otherForm = new Home();
                     otherForm.Show();
@@ -91,13 +105,25 @@ namespace LibraryManageSystem
             SignUp otherForm = new SignUp();
             otherForm.Show();
         }
+
+        private void showPassBtn1_Click(object sender, EventArgs e)
+        {
+            if (passBox.PasswordChar == '*')
+            {
+                passBox.PasswordChar = '\0';
+            }
+            else
+            {
+                passBox.PasswordChar = '*';
+            }
+        }
     }
     public static class GlobalVariables
     {
         public static int UserID { get; set; }
-        public static String UserType { get; set; }
-        public static String UserPass { get; set;}
-        public static String UserName { get; set; }
+        public static String? UserType { get; set; }
+        public static String? UserPass { get; set;}
+        public static String? UserName { get; set; }
     }
 
 

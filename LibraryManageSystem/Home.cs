@@ -29,6 +29,7 @@ namespace LibraryManageSystem
         {
             saveUserBtn.Visible = false;
             deleteBookBtn.Visible = false;
+            passBox.PasswordChar = '*';
 
             if (GlobalVariables.UserType.ToLower() == "admin")
             {
@@ -130,6 +131,7 @@ namespace LibraryManageSystem
                 {
                     updatedBooksDGV.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 15, FontStyle.Bold);
                 }
+
             }
             catch (Exception ex)
             {
@@ -163,7 +165,7 @@ namespace LibraryManageSystem
         {
             if (isExpanded)
             {
-                sideBar.Width = sideBar.Width - 20;
+                sideBar.Width = sideBar.Width - 40;
                 if (sideBar.Width == sideBar.MinimumSize.Width)
                 {
                     sideBarTimer.Stop();
@@ -173,7 +175,7 @@ namespace LibraryManageSystem
             }
             else
             {
-                sideBar.Width = sideBar.Width + 20;
+                sideBar.Width = sideBar.Width + 40;
                 if (sideBar.Width == sideBar.MaximumSize.Width)
                 {
                     sideBarTimer.Stop();
@@ -564,6 +566,12 @@ namespace LibraryManageSystem
                 sc.Parameters.AddWithValue("@userID", GlobalVariables.UserID);
                 sc.ExecuteNonQuery();
 
+                query = "DELETE FROM Borrowed_Book WHERE UserID = @userID";
+                sc = new SqlCommand(query, conn);
+                sc.Parameters.AddWithValue("@userID", GlobalVariables.UserID);
+                sc.ExecuteNonQuery();
+
+
                 query = "DELETE FROM Admin WHERE AdminID = @userID";
                 sc = new SqlCommand(query, conn);
                 sc.Parameters.AddWithValue("@userID", GlobalVariables.UserID);
@@ -594,9 +602,14 @@ namespace LibraryManageSystem
 
         private void textBox_Changed(object sender, EventArgs e)
         {
-            if (userNameBox.Modified || passBox.Modified)
+            if (userNameBox.Modified)
             {
                 saveUserBtn.Visible = true;
+            }
+            if (passBox.Modified)
+            {
+                saveUserBtn.Visible = true;
+                showPassBtn1.Visible = true;
             }
         }
 
@@ -645,6 +658,12 @@ namespace LibraryManageSystem
                 sc = new SqlCommand(query, conn);
                 sc.Parameters.AddWithValue("@ISBN", ISBNValue);
                 sc.ExecuteNonQuery();
+
+                query = "DELETE FROM Borrowed_Book WHERE  ISBN = @ISBN";
+                sc = new SqlCommand(query, conn);
+                sc.Parameters.AddWithValue("@ISBN", ISBNValue);
+                sc.ExecuteNonQuery();
+
 
                 query = "DELETE FROM Book WHERE  ISBN = @ISBN";
                 sc = new SqlCommand(query, conn);
@@ -733,7 +752,7 @@ namespace LibraryManageSystem
                 MessageBox.Show("Book borrowed successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 
-                
+
             }
             catch
             {
@@ -743,6 +762,53 @@ namespace LibraryManageSystem
             {
                 conn.Close();
                 homePanel.BringToFront();
+            }
+        }
+
+        private void viewBooksBtn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                conn.Open();
+                String query = "select title, categorName, price, A.secondName,P.secondName, B.ISBN from Book B , Category C,Author A, Publisher P,Book_Contained BC Where B.AuthorID = A.AuthorID AND B.PublisherID = P.PublisherID AND BC.bISBN = B.ISBN AND BC.cID = C.categoryID AND B.ISBN in (Select ISBN from Borrowed_Book where ISBN = B.ISBN AND UserID = @ID )";
+                SqlCommand sc = new SqlCommand(query, conn);
+                sc.Parameters.AddWithValue("@ID", GlobalVariables.UserID);
+                SqlDataAdapter sda = new SqlDataAdapter(sc);
+                SqlCommandBuilder scb = new SqlCommandBuilder(sda);
+                var ds = new DataSet();
+                sda.Fill(ds);
+                borrowedBooksDGV.DataSource = ds.Tables[0];
+                borrowedBooksDGV.Columns[0].HeaderText = "Title";
+                borrowedBooksDGV.Columns[1].HeaderText = "Category";
+                borrowedBooksDGV.Columns[2].HeaderText = "Price";
+                borrowedBooksDGV.Columns[3].HeaderText = "Author";
+                borrowedBooksDGV.Columns[4].HeaderText = "Publisher";
+                borrowedBooksDGV.Columns[5].HeaderText = "ISBN";
+                for (int i = 0; i < 6; i++)
+                {
+                    borrowedBooksDGV.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 15, FontStyle.Bold);
+                }
+            }
+            catch
+            {
+                MessageBox.Show("An error occurred while retrieving the borrowed books", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                conn.Close();
+                borrowedBookspanel.BringToFront();
+            }
+        }
+
+        private void showPassBtn1_Click(object sender, EventArgs e)
+        {
+            if (passBox.PasswordChar == '*')
+            {
+                passBox.PasswordChar = '\0';
+            }
+            else
+            {
+                passBox.PasswordChar = '*';
             }
         }
     }

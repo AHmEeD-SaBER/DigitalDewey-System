@@ -36,6 +36,7 @@
             passBox = new TextBox();
             signUpBtn = new Button();
             loginBtn = new Button();
+            showPassBtn1 = new Button();
             SuspendLayout();
             // 
             // label1
@@ -86,8 +87,10 @@
             passBox.Font = new Font("Segoe UI", 19.8000011F, FontStyle.Regular, GraphicsUnit.Point);
             passBox.Location = new Point(409, 341);
             passBox.Name = "passBox";
+            passBox.PasswordChar = '*';
             passBox.Size = new Size(487, 51);
             passBox.TabIndex = 4;
+            passBox.TextChanged += textBox_Changed;
             // 
             // signUpBtn
             // 
@@ -119,6 +122,17 @@
             loginBtn.UseVisualStyleBackColor = false;
             loginBtn.Click += loginBtn_Click;
             // 
+            // showPassBtn1
+            // 
+            showPassBtn1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            showPassBtn1.Location = new Point(902, 363);
+            showPassBtn1.Name = "showPassBtn1";
+            showPassBtn1.Size = new Size(94, 29);
+            showPassBtn1.TabIndex = 7;
+            showPassBtn1.Text = "show";
+            showPassBtn1.UseVisualStyleBackColor = true;
+            showPassBtn1.Click += showPassBtn1_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -126,6 +140,7 @@
             BackColor = SystemColors.ActiveCaptionText;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(1126, 724);
+            Controls.Add(showPassBtn1);
             Controls.Add(loginBtn);
             Controls.Add(signUpBtn);
             Controls.Add(passBox);
@@ -150,5 +165,6 @@
         private TextBox passBox;
         private Button signUpBtn;
         private Button loginBtn;
+        private Button showPassBtn1;
     }
 }

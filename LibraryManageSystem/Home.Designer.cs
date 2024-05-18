@@ -39,6 +39,9 @@
             DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle12 = new DataGridViewCellStyle();
             sideBar = new FlowLayoutPanel();
             logo = new FlowLayoutPanel();
             List = new PictureBox();
@@ -84,6 +87,8 @@
             updatedBooksDGV = new Guna.UI2.WinForms.Guna2DataGridView();
             label8 = new Label();
             userPanel = new Panel();
+            showPassBtn1 = new Button();
+            viewBooksBtn = new Button();
             saveUserBtn = new Button();
             deleteUserBtn = new Button();
             passBox = new TextBox();
@@ -102,6 +107,9 @@
             pLB = new Label();
             aLB = new Label();
             mainLB = new Label();
+            borrowedBookspanel = new Panel();
+            headLB = new Label();
+            borrowedBooksDGV = new Guna.UI2.WinForms.Guna2DataGridView();
             sideBar.SuspendLayout();
             logo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)List).BeginInit();
@@ -113,6 +121,8 @@
             ((System.ComponentModel.ISupportInitialize)updatedBooksDGV).BeginInit();
             userPanel.SuspendLayout();
             bookDetails.SuspendLayout();
+            borrowedBookspanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)borrowedBooksDGV).BeginInit();
             SuspendLayout();
             // 
             // sideBar
@@ -749,6 +759,8 @@
             // 
             // userPanel
             // 
+            userPanel.Controls.Add(showPassBtn1);
+            userPanel.Controls.Add(viewBooksBtn);
             userPanel.Controls.Add(saveUserBtn);
             userPanel.Controls.Add(deleteUserBtn);
             userPanel.Controls.Add(passBox);
@@ -761,6 +773,32 @@
             userPanel.Name = "userPanel";
             userPanel.Size = new Size(1080, 706);
             userPanel.TabIndex = 27;
+            // 
+            // showPassBtn1
+            // 
+            showPassBtn1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            showPassBtn1.Location = new Point(844, 320);
+            showPassBtn1.Name = "showPassBtn1";
+            showPassBtn1.Size = new Size(94, 29);
+            showPassBtn1.TabIndex = 8;
+            showPassBtn1.Text = "show";
+            showPassBtn1.UseVisualStyleBackColor = true;
+            showPassBtn1.Click += showPassBtn1_Click;
+            // 
+            // viewBooksBtn
+            // 
+            viewBooksBtn.BackColor = Color.FromArgb(64, 64, 64);
+            viewBooksBtn.Cursor = Cursors.Hand;
+            viewBooksBtn.FlatStyle = FlatStyle.Popup;
+            viewBooksBtn.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point);
+            viewBooksBtn.ForeColor = Color.Aqua;
+            viewBooksBtn.Location = new Point(260, 389);
+            viewBooksBtn.Name = "viewBooksBtn";
+            viewBooksBtn.Size = new Size(578, 62);
+            viewBooksBtn.TabIndex = 7;
+            viewBooksBtn.Text = "Borrowed Books";
+            viewBooksBtn.UseVisualStyleBackColor = false;
+            viewBooksBtn.Click += viewBooksBtn_Click;
             // 
             // saveUserBtn
             // 
@@ -780,7 +818,7 @@
             deleteUserBtn.FlatStyle = FlatStyle.Flat;
             deleteUserBtn.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point);
             deleteUserBtn.ForeColor = SystemColors.ButtonFace;
-            deleteUserBtn.Location = new Point(390, 439);
+            deleteUserBtn.Location = new Point(392, 579);
             deleteUserBtn.Name = "deleteUserBtn";
             deleteUserBtn.Size = new Size(309, 67);
             deleteUserBtn.TabIndex = 5;
@@ -857,6 +895,7 @@
             // borrowBtn
             // 
             borrowBtn.BackColor = Color.Aqua;
+            borrowBtn.Cursor = Cursors.Hand;
             borrowBtn.FlatAppearance.BorderSize = 0;
             borrowBtn.FlatAppearance.MouseDownBackColor = Color.White;
             borrowBtn.FlatAppearance.MouseOverBackColor = Color.Aqua;
@@ -965,6 +1004,81 @@
             mainLB.TabIndex = 0;
             mainLB.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // borrowedBookspanel
+            // 
+            borrowedBookspanel.Controls.Add(headLB);
+            borrowedBookspanel.Controls.Add(borrowedBooksDGV);
+            borrowedBookspanel.Dock = DockStyle.Fill;
+            borrowedBookspanel.Location = new Point(68, 0);
+            borrowedBookspanel.Name = "borrowedBookspanel";
+            borrowedBookspanel.Size = new Size(1080, 706);
+            borrowedBookspanel.TabIndex = 8;
+            // 
+            // headLB
+            // 
+            headLB.Font = new Font("Segoe UI Black", 24F, FontStyle.Bold, GraphicsUnit.Point);
+            headLB.ForeColor = Color.Aqua;
+            headLB.Location = new Point(354, 23);
+            headLB.Name = "headLB";
+            headLB.Size = new Size(373, 78);
+            headLB.TabIndex = 11;
+            headLB.Text = "Borrowed Books";
+            // 
+            // borrowedBooksDGV
+            // 
+            dataGridViewCellStyle10.BackColor = Color.White;
+            borrowedBooksDGV.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle10;
+            borrowedBooksDGV.BackgroundColor = Color.DimGray;
+            dataGridViewCellStyle11.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle11.BackColor = Color.FromArgb(100, 88, 255);
+            dataGridViewCellStyle11.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle11.ForeColor = Color.White;
+            dataGridViewCellStyle11.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle11.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle11.WrapMode = DataGridViewTriState.True;
+            borrowedBooksDGV.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle11;
+            borrowedBooksDGV.ColumnHeadersHeight = 40;
+            borrowedBooksDGV.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
+            dataGridViewCellStyle12.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle12.BackColor = Color.White;
+            dataGridViewCellStyle12.Font = new Font("Segoe UI Semibold", 13.8F, FontStyle.Bold, GraphicsUnit.Point);
+            dataGridViewCellStyle12.ForeColor = Color.FromArgb(71, 69, 94);
+            dataGridViewCellStyle12.SelectionBackColor = Color.FromArgb(231, 229, 255);
+            dataGridViewCellStyle12.SelectionForeColor = Color.FromArgb(71, 69, 94);
+            dataGridViewCellStyle12.WrapMode = DataGridViewTriState.False;
+            borrowedBooksDGV.DefaultCellStyle = dataGridViewCellStyle12;
+            borrowedBooksDGV.GridColor = Color.FromArgb(231, 229, 255);
+            borrowedBooksDGV.Location = new Point(37, 209);
+            borrowedBooksDGV.Name = "borrowedBooksDGV";
+            borrowedBooksDGV.ReadOnly = true;
+            borrowedBooksDGV.RowHeadersVisible = false;
+            borrowedBooksDGV.RowHeadersWidth = 51;
+            borrowedBooksDGV.RowTemplate.Height = 29;
+            borrowedBooksDGV.Size = new Size(1007, 437);
+            borrowedBooksDGV.TabIndex = 10;
+            borrowedBooksDGV.TabStop = false;
+            borrowedBooksDGV.ThemeStyle.AlternatingRowsStyle.BackColor = Color.White;
+            borrowedBooksDGV.ThemeStyle.AlternatingRowsStyle.Font = null;
+            borrowedBooksDGV.ThemeStyle.AlternatingRowsStyle.ForeColor = Color.Empty;
+            borrowedBooksDGV.ThemeStyle.AlternatingRowsStyle.SelectionBackColor = Color.Empty;
+            borrowedBooksDGV.ThemeStyle.AlternatingRowsStyle.SelectionForeColor = Color.Empty;
+            borrowedBooksDGV.ThemeStyle.BackColor = Color.DimGray;
+            borrowedBooksDGV.ThemeStyle.GridColor = Color.FromArgb(231, 229, 255);
+            borrowedBooksDGV.ThemeStyle.HeaderStyle.BackColor = Color.Aqua;
+            borrowedBooksDGV.ThemeStyle.HeaderStyle.BorderStyle = DataGridViewHeaderBorderStyle.None;
+            borrowedBooksDGV.ThemeStyle.HeaderStyle.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            borrowedBooksDGV.ThemeStyle.HeaderStyle.ForeColor = Color.White;
+            borrowedBooksDGV.ThemeStyle.HeaderStyle.HeaightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
+            borrowedBooksDGV.ThemeStyle.HeaderStyle.Height = 40;
+            borrowedBooksDGV.ThemeStyle.ReadOnly = true;
+            borrowedBooksDGV.ThemeStyle.RowsStyle.BackColor = Color.Aqua;
+            borrowedBooksDGV.ThemeStyle.RowsStyle.BorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            borrowedBooksDGV.ThemeStyle.RowsStyle.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point);
+            borrowedBooksDGV.ThemeStyle.RowsStyle.ForeColor = Color.FromArgb(71, 69, 94);
+            borrowedBooksDGV.ThemeStyle.RowsStyle.Height = 29;
+            borrowedBooksDGV.ThemeStyle.RowsStyle.SelectionBackColor = Color.FromArgb(231, 229, 255);
+            borrowedBooksDGV.ThemeStyle.RowsStyle.SelectionForeColor = Color.FromArgb(71, 69, 94);
+            // 
             // Home
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -972,9 +1086,10 @@
             BackColor = SystemColors.ActiveCaptionText;
             ClientSize = new Size(1148, 706);
             Controls.Add(homePanel);
+            Controls.Add(userPanel);
+            Controls.Add(borrowedBookspanel);
             Controls.Add(updateBookPanel);
             Controls.Add(addBookPanel);
-            Controls.Add(userPanel);
             Controls.Add(sideBar);
             Controls.Add(bookDetails);
             FormBorderStyle = FormBorderStyle.Fixed3D;
@@ -996,6 +1111,8 @@
             userPanel.ResumeLayout(false);
             userPanel.PerformLayout();
             bookDetails.ResumeLayout(false);
+            borrowedBookspanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)borrowedBooksDGV).EndInit();
             ResumeLayout(false);
         }
 
@@ -1065,5 +1182,10 @@
         private Label cBX;
         private Label aBX;
         private Button borrowBtn;
+        private Button viewBooksBtn;
+        private Panel borrowedBookspanel;
+        private Label headLB;
+        private Guna.UI2.WinForms.Guna2DataGridView borrowedBooksDGV;
+        private Button showPassBtn1;
     }
 }
