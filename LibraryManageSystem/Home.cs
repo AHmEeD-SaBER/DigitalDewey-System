@@ -743,7 +743,7 @@ namespace LibraryManageSystem
             try
             {
                 conn.Open();
-                String query = "INSERT INTO Borrowed_Book (ISBN,title, UserID) values(@ISBN, @title, @ID)";
+                String query = "INSERT INTO Borrowed_Book (ISBN,title, UserID,borrowing_date) values(@ISBN, @title, @ID, CONVERT(DATE, GETDATE()) )";
                 SqlCommand sc = new SqlCommand(query, conn);
                 sc.Parameters.AddWithValue("@ISBN", ISBNValue);
                 sc.Parameters.AddWithValue("@title", aBX.Text);
@@ -754,9 +754,9 @@ namespace LibraryManageSystem
 
 
             }
-            catch
+            catch(Exception ex)
             {
-                MessageBox.Show("An error occurred while borrowing the book", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("An error occurred while borrowing the book"+ex.Message);
             }
             finally
             {
@@ -770,9 +770,10 @@ namespace LibraryManageSystem
             try
             {
                 conn.Open();
-                String query = "select title, categorName, price, A.secondName,P.secondName, B.ISBN from Book B , Category C,Author A, Publisher P,Book_Contained BC Where B.AuthorID = A.AuthorID AND B.PublisherID = P.PublisherID AND BC.bISBN = B.ISBN AND BC.cID = C.categoryID AND B.ISBN in (Select ISBN from Borrowed_Book where ISBN = B.ISBN AND UserID = @ID )";
+                String query = "select title, categorName, price, A.secondName, P.secondName, from Book B , Category C, Author A, Publisher P, Book_Contained BC, Borrowed_Book BB Where B.AuthorID = A.AuthorID AND B.PublisherID = P.PublisherID AND BC.bISBN = B.ISBN AND BC.cID = C.categoryID AND B.ISBN = BB.ISBN AND BB.UserID = @ID AND BB.borrowing_date >= DATEADD(month, -3, GETDATE())";
                 SqlCommand sc = new SqlCommand(query, conn);
                 sc.Parameters.AddWithValue("@ID", GlobalVariables.UserID);
+
                 SqlDataAdapter sda = new SqlDataAdapter(sc);
                 SqlCommandBuilder scb = new SqlCommandBuilder(sda);
                 var ds = new DataSet();
